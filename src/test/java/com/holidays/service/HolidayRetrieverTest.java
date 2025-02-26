@@ -1,18 +1,22 @@
 package com.holidays.service;
 
+import com.holidays.service.model.Holiday;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.util.List;
 
 @SpringBootTest
 public class HolidayRetrieverTest {
 
-    @MockBean
+    @Autowired
     private HolidayRetriever holidayService;
 
     @Test
     public void testRetrieveHolidays(){
-        Assertions.assertNotNull(holidayService.retrieveHolidays(2025,"NL"));
+        List<Holiday> nlHolidayList = holidayService.retrieveHolidays(2025, "NL");
+        Assertions.assertNotNull(nlHolidayList);
     }
 }

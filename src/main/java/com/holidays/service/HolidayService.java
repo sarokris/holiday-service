@@ -1,14 +1,15 @@
 package com.holidays.service;
 
-import com.holidays.service.model.Holiday;
+import com.holidays.model.Holiday;
+import com.holidays.model.SortOrder;
 
 import java.util.List;
 import java.util.Map;
 
-public interface HolidayRetriever {
+public interface HolidayService {
    List<Holiday> retrieveHolidays(int year, String country);
 
-   List<Holiday> getLastThreeHolidays(String countryCode);
+   List<Holiday> getHolidays(String countryCode, int limit, SortOrder sortOrder);
 
    Map<String,Integer> getWorkingDayHolidays(int year,List<String> countryCodes);
 

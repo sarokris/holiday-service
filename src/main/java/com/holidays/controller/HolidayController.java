@@ -1,5 +1,6 @@
 package com.holidays.controller;
 
+import com.holidays.model.LocalHoliday;
 import com.holidays.model.SimpleHoliday;
 import com.holidays.service.HolidayService;
 import com.holidays.model.SortOrder;
@@ -32,5 +33,9 @@ public class HolidayController {
     @GetMapping("/public/weekdays/{year}")
     public Map<String,Long> getWeekHolidayCount(@PathVariable Integer year,@RequestParam List<String> countryCodes){
         return holidayService.getWorkingDayHolidays(year,countryCodes);
+    }
+    @GetMapping("/common/{year}")
+    public List<LocalHoliday> getWeekHolidayCount(@PathVariable Integer year, @RequestParam String firstCountryCode, @RequestParam String secondCountryCode){
+        return holidayService.getCommonHolidays(year,firstCountryCode,secondCountryCode);
     }
 }

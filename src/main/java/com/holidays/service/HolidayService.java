@@ -1,6 +1,7 @@
 package com.holidays.service;
 
 import com.holidays.model.Holiday;
+import com.holidays.model.LocalHoliday;
 import com.holidays.model.SimpleHoliday;
 import com.holidays.model.SortOrder;
 
@@ -14,5 +15,5 @@ public interface HolidayService {
 
    Map<String,Long> getWorkingDayHolidays(int year,List<String> countryCodes);
 
-   List<Holiday> getCommonHolidays(int year,String firstCountryCode,String secondCountryCode);
+   List<LocalHoliday> getCommonHolidays(int year, String firstCountryCode, String secondCountryCode);
 }

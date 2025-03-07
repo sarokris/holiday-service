@@ -32,7 +32,7 @@ java -jar target/holiday-service-0.0.1-SNAPSHOT.jar
 You can access the API documentation once you successfully run the application [swagger](http://localhost:8080/swagger-ui/index.html)
 
 ### Technologies Used 
-- Spring Boot 3.2.x
+- Spring Boot 3.3.9
 - Java 21
 - RestClient
 - CompletableFuture

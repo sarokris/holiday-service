@@ -121,7 +121,7 @@ public class HolidayServiceImpl implements HolidayService {
             // Build a de-duplicated list of holidays
             return commonDates.stream()
                     .map(date -> new LocalHoliday(date, mergeLocalNames(c1HolidaysMap.get(date),(c2HolidaysMap.get(date)))))
-                    .sorted(Comparator.comparing(LocalHoliday::date).reversed())
+                    .sorted(Comparator.comparing(LocalHoliday::date))
                     .toList();
         }).join();
     }

@@ -17,6 +17,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -82,10 +83,32 @@ class HolidayServiceTest {
         assertNotNull(lastCelebratedHoliday);
         assertEquals(limit,lastCelebratedHoliday.size());
         assertTrue(lastCelebratedHoliday.stream().map(SimpleHoliday::date).anyMatch(lDate -> lDate.getYear() == 2024));
+        assertTrue(lastCelebratedHoliday.stream().map(SimpleHoliday::date).anyMatch(lDate -> lDate.getYear() == 2025));
     }
 
     @Test
-    void getWorkingDayHolidays() {
+    void getWorkingDayHolidays() throws JsonProcessingException {
+        List<Holiday> nlHolidays = List.of(new Holiday(LocalDate.of(2025,1,1),"Nieuwjaarsdag","new year","NL"
+                ,false,false,List.of(),2025,List.of()),new Holiday(LocalDate.of(2025,4,20),"Eerste Paasdag","Easter Sunday","NL"
+                ,false,false,List.of(),2025,List.of()),new Holiday(LocalDate.of(2025,6,8),"Eerste Pinksterdag","Pentecost","NL"
+                ,false,false,List.of(),2025,List.of()));
+
+        List<Holiday> usHolidays = List.of(new Holiday(LocalDate.of(2025,1,1),"New Year","new year","US"
+                ,false,false,List.of(),2025,List.of()),new Holiday(LocalDate.of(2025, 1,20),"Martin Luther King, Jr. Day","Martin Luther King, Jr. Day","US"
+                ,false,false,List.of(),2025,List.of()),new Holiday(LocalDate.of(2025, 2,17),"Washington's Birthday","Washington's Birthday","US"
+                ,false,false,List.of(),2025,List.of()));
+        this.mockServer
+                .expect(requestTo(baseUrl+"/PublicHolidays/2025/NL"))
+                .andRespond(withSuccess(objectMapper.writeValueAsString(nlHolidays), MediaType.APPLICATION_JSON));
+        this.mockServer
+                .expect(requestTo(baseUrl+"/PublicHolidays/2025/US"))
+                .andRespond(withSuccess(objectMapper.writeValueAsString(usHolidays), MediaType.APPLICATION_JSON));
+
+        Map<String, Long> weekHolidays = holidayService.getWorkingDayHolidays(2025,List.of("NL","US"));
+        assertNotNull(weekHolidays);
+        assertEquals(1,weekHolidays.get("NL"));
+        assertEquals(3,weekHolidays.get("US"));
+
     }
 
     @Test

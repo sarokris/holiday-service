@@ -25,7 +25,7 @@ public class HolidayController {
     private final HolidayService holidayService;
 
     @Operation(
-            summary = "This API returns the last celebrated holidays based on the limit"
+            summary = "This API returns the last celebrated holidays"
     )
     @GetMapping("/last/{countryCode}")
     public List<SimpleHoliday> getLastHolidays(

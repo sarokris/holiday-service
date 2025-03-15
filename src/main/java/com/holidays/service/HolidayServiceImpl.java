@@ -38,7 +38,8 @@ public class HolidayServiceImpl implements HolidayService {
                 .uri("/PublicHolidays/{year}/{country}",year,country)
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, (request, response) -> {
-                    throw new HolidayException(response.getStatusCode().value(), response.getBody().toString());
+                    String responseBody = new String(response.getBody().readAllBytes());
+                    throw new HolidayException(response.getStatusCode().value(), responseBody);
                 })
                 .body(new ParameterizedTypeReference<>() {
                 });

@@ -12,6 +12,13 @@ public class HolidayControllerAdvisor {
     @ExceptionHandler(HolidayException.class)
     public ResponseEntity<HolidayErrorResponse> handleHolidayExceptioException(HolidayException ex) {
         HolidayErrorResponse error = new HolidayErrorResponse(ex.getErrorCode(), ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.resolve(error.errCode()));
+        return new ResponseEntity<>(error, resolveHttpStatus(error.errCode()));
+    }
+
+    private HttpStatus resolveHttpStatus(int errCode){
+        if(errCode == 0)
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatus status =  HttpStatus.resolve(errCode);
+        return status != null ? status : HttpStatus.INTERNAL_SERVER_ERROR;
     }
 }

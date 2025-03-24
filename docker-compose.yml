@@ -1,26 +1,14 @@
-version: '3.8'
-
 services:
   app:
     build: .
     container_name: holiday_service
     depends_on:
       - redis
-    environment:
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
     ports:
       - "8080:8080"
 
   redis:
     image: redis:latest
     container_name: redis_cache
-    restart: always
     ports:
       - "6379:6379"
-    command: ["redis-server", "--appendonly", "yes"]
-    volumes:
-      - redis_data:/data
-
-volumes:
-  redis_data:

@@ -7,6 +7,7 @@ import com.holidays.model.SimpleHoliday;
 import com.holidays.model.SortOrder;
 import com.holidays.util.HolidayUtils;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class HolidayServiceImpl implements HolidayService {
     private final RestClient restClient;
 
     @Override
-    @Cacheable(value = "holidays", key = "#year + ':' + #country", unless = "#result == null")
+    @CachePut(value = "holidays", key = "#year + ':' + #country", unless = "#result == null")
     public List<Holiday> retrieveHolidays(int year, String country) {
         List<Holiday> holidays =  restClient.get()
                 .uri("/PublicHolidays/{year}/{country}",year,country)
